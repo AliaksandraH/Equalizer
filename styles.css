@@ -3,24 +3,62 @@ body {
     height: 100vh;
     padding: 0;
     margin: 0;
+    background: linear-gradient(135deg, #153677, #4e085f);
+}
+
+table {
+    transform: scaleY(-1);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+td {
+    transition: all 0.1s ease;
+    background: rgba(0, 0, 0, 0);
+}
+
+audio {
+    margin-top: 20px;
+}
+
+input {
+    display: none;
+}
+
+#nameFile {
+    color: white;
+    font-size: 17px;
+    margin-top: 20px;
+    max-width: 300px;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+}
+
+.container {
+    position: absolute;
+    right: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 99;
+    margin: 30px;
 }
 
-table {
-    margin-bottom: 20px;
-    transform: rotate(-180deg);
-}
-
-td {
-    width: 60px;
-    height: 60px;
-    border: 1px solid black;
-    transition: all 0.1s ease;
-}
-
-.display-none {
-    display: none;
+.custom-file-label {
+    width: 200px;
+    height: 20px;
+    background-color: #f1f3f4;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
