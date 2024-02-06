@@ -3,77 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="./img/icon.png" />
     <title>Equalizer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <table id="equalizerTable">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-    <input type="file" id="audioInput" accept="audio/*"/>
-    <audio controls id="audio" src="path/to/file" class="display-none"></audio>
+    <div class="container">
+        <input type="file" id="audioInput" accept="audio/*"/>
+        <label for="audioInput" class="custom-file-label">Select a file</label>
+        <audio controls id="audio"></audio>
+        <p id="nameFile"></p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

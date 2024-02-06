@@ -1,53 +1,72 @@
 document.addEventListener("DOMContentLoaded", function () {
     const audioInput = document.getElementById("audioInput");
     const audio = document.getElementById("audio");
-    const equalizerTable = document.getElementById("equalizerTable");
-
+    const nameFile = document.getElementById("nameFile");
+    const rows = 100;
+    const cols = 100;
     let audioContext;
+    let source;
     let analyser;
+    let dataArray;
+
+    let equalizerTable = document.createElement("table");
+    equalizerTable.id = "equalizerTable";
+    for (let i = 0; i < rows; i++) {
+        let row = document.createElement("tr");
+        for (let j = 0; j < cols; j++) {
+            let cell = document.createElement("td");
+            row.appendChild(cell);
+        }
+        equalizerTable.appendChild(row);
+    }
+    document.body.append(equalizerTable);
 
     function initializeAudio() {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioContext) {
+            audioContext = new AudioContext();
+        }
+        if (!source) {
+            source = audioContext.createMediaElementSource(audio);
+        }
         analyser = audioContext.createAnalyser();
-        const source = audioContext.createMediaElementSource(audio);
         source.connect(analyser);
         analyser.connect(audioContext.destination);
         analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+    }
 
-        function updateEqualizer() {
-            analyser.getByteFrequencyData(dataArray);
-            if (equalizerTable) {
-                const rowsCount = equalizerTable.rows.length;
-                const colsCount = equalizerTable.rows[0].cells.length;
-
-                for (let i = 0; i < rowsCount; i++) {
-                    for (let j = 0; j < colsCount; j++) {
-                        const index = i * colsCount + j;
-                        const value = dataArray[index] / 3 + 2;
-
-                        equalizerTable.rows[i].cells[j].style.backgroundColor =
-                            value <= 50 ? "white" : "#b2ffb2";
-                    }
+    function updateEqualizer() {
+        analyser.getByteFrequencyData(dataArray);
+        if (equalizerTable) {
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    equalizerTable.rows[i].cells[j].style.backgroundColor =
+                        "rgba(0, 0, 0, 0)";
                 }
             }
 
-            requestAnimationFrame(updateEqualizer);
+            for (let i = 0; i < cols; i++) {
+                const height = Math.round((dataArray[i] / 256) * rows);
+                for (let j = 0; j < height; j++) {
+                    equalizerTable.rows[j].cells[i].style.backgroundColor =
+                        "#db0b9d";
+                }
+            }
         }
 
-        audioInput.addEventListener("change", function (event) {
-            const file = event.target.files[0];
-
-            if (file) {
-                audio.classList.remove("display-none");
-                audioInput.classList.add("display-none");
-                const objectURL = URL.createObjectURL(file);
-                audio.src = objectURL;
-                updateEqualizer();
-            }
-        });
+        requestAnimationFrame(updateEqualizer);
     }
 
-    document.addEventListener("click", initializeAudio);
+    audioInput.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            nameFile.innerHTML = file.name;
+            const objectURL = URL.createObjectURL(file);
+            audio.src = objectURL;
+            updateEqualizer();
+        }
+    });
+
+    audioInput.addEventListener("click", initializeAudio, { once: true });
 });
